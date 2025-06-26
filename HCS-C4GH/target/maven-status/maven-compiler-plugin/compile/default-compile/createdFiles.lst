@@ -1,8 +1,0 @@
-hcsc4gh\Security\RestSecurityFilter.class
-hcsc4gh\Utils\UrlUtil.class
-hcsc4gh\Security\Secured.class
-hcsc4gh\Utils\AuthorizationUtil.class
-hcsc4gh\Utils\Utils.class
-hcsc4gh\Utils\JWTUtil.class
-hcsc4gh\ApplicationConfig.class
-hcsc4gh\HCSC4GH.class
