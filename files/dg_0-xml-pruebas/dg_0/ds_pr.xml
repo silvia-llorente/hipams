@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetadataAccessUnit xmlns="urn:mpeg:mpeg-g:protection:descriptor-stream:2019" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:mpeg:mpeg-g:protection:descriptor-stream:2019 C:\test\resources\schemas\ISOIEC_23092-3_Annex_A6_dspr_schema_SL.xsd">
+    
+  <MedicalMetadata
+      resourceType="Patient"
+      id="example-patient"
+      versionId="1"
+      timestamp="2025-05-27T12:34:56Z">
+		<Patient xmlns="http://hl7.org/fhir">
+		  <id value="example-patient"/>
+		  <name>
+			<family value="Doe"/>
+			<given value="John"/>
+		  </name>
+		  <gender value="male"/>
+		  <birthDate value="1974-12-25"/>
+		</Patient>
+  </MedicalMetadata>
+  
+  
+  </MetadataAccessUnit>

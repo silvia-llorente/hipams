@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DatasetProtection xmlns="urn:mpeg:mpeg-g:protection:dataset:2019" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"       
+    xsi:schemaLocation="urn:mpeg:mpeg-g:protection:dataset:2019 /opt/HCService/schemas/ISOIEC_23092-3_Annex_A4_dtpr_schema_SL.xsd">    <KeyTransportAES>
+        <keyName>TransportKey1</keyName>
+        <KeySymmetricWrap>
+            <kek>PnJzYXsZxPtLvXqIXNyCTxxL4OIf/tvdxF8V8GhMJ4Q=</kek>
+            <wrappedKey>3auMNGGPxn/FiwL6rOpTwf58cro87gTd3uBOjs6LQcmnvIoRN6IyFg==</wrappedKey>
+        </KeySymmetricWrap>
+    </KeyTransportAES>
+    <EncryptionParameters encryptedLocations="metadata" configurationID="19">
+        <cipher>urn:mpeg:mpeg-g:protection:aes256-gcm</cipher>
+        <keyName>TransportKey1</keyName>
+        <IV>510M2JtNMU5yDxLH</IV>
+        <TAG>0VKqcvcAiBcAWxvsEeHRKA==</TAG>
+    </EncryptionParameters>
+
+</DatasetProtection>

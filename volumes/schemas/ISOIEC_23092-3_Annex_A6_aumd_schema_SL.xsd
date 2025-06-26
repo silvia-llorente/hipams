@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:dspr="urn:mpeg:mpeg-g:protection:descriptor-stream:2019"
+    xmlns:fhir="http://hl7.org/fhir"
+    xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+    targetNamespace="urn:mpeg:mpeg-g:protection:descriptor-stream:2019"
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified">
+
+  <!-- Imports originals -->
+  <xs:import namespace="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+             schemaLocation="./xacml-core-v3-schema-wd-17.xsd"/>
+  <xs:import namespace="http://www.w3.org/2000/09/xmldsig#"
+             schemaLocation="./xmldsig-core-schema.xsd#"/>
+
+  <!-- SignatureType igual que abans -->
+  <xs:complexType name="SignatureType">
+    <xs:sequence>
+      <xs:element ref="ds:Signature"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MedicalMetadataType">
+    <xs:sequence>
+      <!-- 1) Aquí permetem qualsevol element de FHIR -->
+      <xs:any 
+         namespace="http://hl7.org/fhir" 
+         processContents="lax"
+         minOccurs="1" 
+         maxOccurs="unbounded"/>
+    </xs:sequence>
+    <!-- Els atributs ja existents -->
+    <xs:attribute name="resourceType" type="xs:string" use="required"/>
+    <xs:attribute name="id"           type="xs:string" use="optional"/>
+    <xs:attribute name="versionId"    type="xs:string" use="optional"/>
+    <xs:attribute name="timestamp"    type="xs:dateTime" use="optional"/>
+  </xs:complexType>
+
+  <!-- Tipus principal que inclou MedicalMetadata + signatures -->
+  <xs:complexType name="MetadataAccessUnitType">
+    <xs:sequence>
+      <xs:element name="MedicalMetadata" 
+                  type="dspr:MedicalMetadataType"
+                  minOccurs="0" maxOccurs="1"/>
+      <xs:element name="SignatureParameters" 
+                  type="dspr:SignatureType"
+                  minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="MetadataAccessUnit" 
+              type="dspr:MetadataAccessUnitType"/>
+
+</xs:schema>
+

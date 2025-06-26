@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- editado con XMLSpy v2025 rel. 2 (x64) (https://www.altova.com/es) por Arnau (Universidad Politecnica de Catalunya) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dgpr="urn:mpeg:mpeg-g:protection:dataset-group:2019" xmlns:xacml="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="urn:mpeg:mpeg-g:protection:dataset-group:2019" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" schemaLocation="./xacml-core-v3-schema-wd-17.xsd"/>
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="./xmldsig-core-schema.xsd"/>
+	<xs:complexType name="KeySymmetricWrapType">
+		<xs:sequence>
+			<xs:element name="kek" type="xs:string"/>
+			<xs:element name="wrappedKey" type="xs:base64Binary"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="KeyAsymmetricWrapType">
+		<xs:sequence>
+			<xs:element name="hashFunction">
+				<xs:simpleType>
+					<xs:restriction base="xs:anyURI">
+						<xs:enumeration value="urn:mpeg:mpeg-g:protection:sha224"/>
+						<xs:enumeration value="urn:mpeg:mpeg-g:protection:sha256"/>
+						<xs:enumeration value="urn:mpeg:mpeg-g:protection:sha384"/>
+						<xs:enumeration value="urn:mpeg:mpeg-g:protection:sha512"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="maskGenerationHashFunction">
+				<xs:simpleType>
+					<xs:restriction base="xs:anyURI">
+						<xs:enumeration value="urn:mpeg:mpeg-g:protection:sha224"/>
+						<xs:enumeration value="urn:mpeg:mpeg-g:protection:sha256"/>
+						<xs:enumeration value="urn:mpeg:mpeg-g:protection:sha384"/>
+						<xs:enumeration value="urn:mpeg:mpeg-g:protection:sha512"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="publicKeyName" type="xs:string"/>
+			<xs:element name="wrappedKey" type="xs:base64Binary"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="KeyDerivationType">
+		<xs:sequence>
+			<xs:element name="PRF">
+				<xs:simpleType>
+					<xs:restriction base="xs:anyURI">
+						<xs:enumeration value="urn:mpeg:mpeg-g:protection:hmac-sha224"/>
+						<xs:enumeration value="urn:mpeg:mpeg-g:protection:hmac-sha256"/>
+						<xs:enumeration value="urn:mpeg:mpeg-g:protection:hmac-sha384"/>
+						<xs:enumeration value="urn:mpeg:mpeg-g:protection:hmac-sha512"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="passwordName" type="xs:string"/>
+			<xs:element name="salt" type="xs:base64Binary"/>
+			<xs:element name="iterations" type="xs:integer"/>
+			<xs:element name="length" type="xs:integer"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="KeyTransportType">
+		<xs:sequence>
+			<xs:element name="keyName" type="xs:string"/>
+			<xs:choice>
+				<xs:element name="KeyDerivation" type="dgpr:KeyDerivationType"/>
+				<xs:element name="KeySymmetricWrap" type="dgpr:KeySymmetricWrapType"/>
+				<xs:element name="KeyAsymmetricWrap" type="dgpr:KeyAsymmetricWrapType"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CipherURIType">
+		<xs:restriction base="xs:anyURI">
+			<xs:enumeration value="urn:mpeg:mpeg-g:protection:aes128-ctr"/>
+			<xs:enumeration value="urn:mpeg:mpeg-g:protection:aes192-ctr"/>
+			<xs:enumeration value="urn:mpeg:mpeg-g:protection:aes256-ctr"/>
+			<xs:enumeration value="urn:mpeg:mpeg-g:protection:aes128-gcm"/>
+			<xs:enumeration value="urn:mpeg:mpeg-g:protection:aes192-gcm"/>
+			<xs:enumeration value="urn:mpeg:mpeg-g:protection:aes256-gcm"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="EncryptionParametersType">
+		<xs:sequence>
+			<xs:element name="cipher" type="dgpr:CipherURIType" minOccurs="0"/>
+			<xs:element name="keyName" type="xs:string"/>
+			<xs:element name="IV" type="xs:base64Binary" minOccurs="0"/>
+			<xs:element name="TAG" type="xs:base64Binary" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="encryptedLocations" type="xs:anyURI" use="required"/>
+		<xs:attribute name="configurationID" type="xs:integer"/>
+	</xs:complexType>
+	<xs:complexType name="SignatureType">
+		<xs:sequence>
+			<xs:element ref="ds:Signature"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DatasetGroupProtectionType">
+		<xs:sequence>
+			<xs:element name="KeyTransportAES" type="dgpr:KeyTransportType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="EncryptionParameters" type="dgpr:EncryptionParametersType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="SignatureParameters" type="dgpr:SignatureType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="xacml:Policy" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="DatasetGroupProtection" type="dgpr:DatasetGroupProtectionType"/>
+</xs:schema>
